@@ -1,0 +1,79 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Appointment join{% endblock %}
+
+{% block head %}
+    <style>
+        td {
+            padding: 5px;
+            border: none;
+            text-align: left;
+        }
+        tr {
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            border-collapse: collapse;
+        }
+        table {
+            margin: auto;
+            width: 70%;
+            padding: 1em;
+            border-radius: 10px;
+            border-collapse:separate;
+            border: 3px solid green;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            table-layout: fixed;
+        }
+        fieldset{
+            border: 3px solid green;
+            padding: 1em;
+            border-radius: 25px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <center>
+        <font size="4">You are going to join the following activity:<br><br></font>
+        <table>
+        {% for heading, val in appointment %}
+            {% if heading == 'status' %}
+                {% if val == 'O' %}
+                    <tr> <th> {{ heading }}</th> <td> Open </td> </tr>
+                {% elif val == 'E' %}
+                    <tr> <th> {{ heading }}</th> <td> Expired </td> </tr>
+                {% elif val == 'F' %}
+                    <tr> <th> {{ heading }}</th> <td> Full </td> </tr>
+                {% endif %}
+            {% elif heading == 'max_num' %}
+                <tr> <th> max. no. of participants</th> <td> {{ val }}</td> </tr>
+            {% elif heading == 'sports_type' %}
+                <tr> <th> sports type</th> <td> {{ val }}</td> </tr>
+            {% elif heading == 'appointment_time' %}
+                <tr> <th> appointment time</th> <td> {{ val }}</td> </tr>
+            {% else %}
+                <tr> <th> {{ heading }}</th> <td> {{ val }}</td> </tr>
+            {% endif %}      
+        {% endfor %}
+        <tr> <td> <br> Are you sure to join this activity? </td> </tr>
+        {% csrf_token %}
+        <tr> 
+            <td>
+                <form method = "POST">
+                <a class = "btn btn-default" href = "{% url 'appointment_join_result' pk=id %}" style = 'float: left'>
+                    Yes </a>
+                </form>
+            </td>
+            <td>  
+                <form method = "POST">
+                <a class = "btn btn-default" href = "{% url 'appointment_list' %}" style = 'float: left'>
+                    No </a>
+                </form>
+            </td>
+        </tr>
+        </table>
+        </center>
+    </div>
+{% endblock %}

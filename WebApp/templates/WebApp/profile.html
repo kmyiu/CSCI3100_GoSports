@@ -1,0 +1,59 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}{{ user.Nickname }}'s Profile{% endblock %}
+
+{% block head %}
+    <style>
+        td {
+            padding: 5px;
+            border: none;
+            text-align: left;
+        }
+        tr {
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            border-collapse: collapse;
+        }
+        table {
+            margin: auto;
+            width: 70%;
+            padding: 1em;
+            border-radius: 10px;
+            border-collapse:separate;
+            border: 3px solid green;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            table-layout: fixed;
+        }
+        fieldset{
+            border: 3px solid green;
+            padding: 1em;
+            border-radius: 25px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <br/>
+    <br/>
+    <div>
+        <table border = "1">
+            {% for field, value in user.items %}
+                {% if field != 'Propic' %}
+                    <tr>
+                        <td colspan = "11">{{ field }}:</td>
+                        <td colspan = {% if field == 'Username' %}"37"{% else %}"50"{% endif %}>{{ value }}</td>
+                        {% if field == 'Username' %}
+                            <td colspan = "13" rowspan = "4"><img src = "{{ user.Propic }}" width = "120" height = "120"></td>
+                        {% endif %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            {% if user.Username == request.user.username %}
+                <tr>
+                    <td colspan = "10"><a href = "{% url 'profile_edit' %}"><button class = "button buttonchangeinfo"><span class = "blacktext">Change Information</span></button></a></td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+{% endblock %}

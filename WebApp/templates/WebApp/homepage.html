@@ -1,0 +1,48 @@
+{% extends 'WebApp/base.html' %}
+{% load staticfiles %}
+{% block title %}GoSports!{% endblock %}
+
+{% block head %}
+<style type="text/css">
+	#carouselExampleIndicators {
+
+		width: 100%;
+		height: 300px;
+	}
+	.carousel-item img {
+		height: 300px;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+</style>
+
+{% endblock %}
+
+{% block content %}
+<center>
+	<div style="max-width: 60%" id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval=5000>
+	  <ol class="carousel-indicators">
+	    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+	    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+	    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+	  </ol>
+	  <div class="carousel-inner">
+	    <div class="carousel-item active">
+	      <img class="d-block" src="{% static 'img/court1.jpg' %}" alt="First slide">
+	    </div>
+	    <div class="carousel-item">
+	      <img class="d-block" src="{% static 'img/court2.jpg' %}" alt="Second slide">
+	    </div>
+	    <div class="carousel-item">
+	      <img class="d-block" src="{% static 'img/court3.jpg' %}" alt="Third slide">
+	    </div>
+	  </div>
+	</div>
+    <div style="text-align: center;padding:5px 5px;">
+	       <a href="{% url 'homepage' %}"><img src="{% static 'img/favicon.png' %}" alt="Icon" class="icon"/></a>
+        GoSports is a great platform for sport lovers. No friends for games? Register NOW!
+       <a href="{% url 'homepage' %}"><img src="{% static 'img/favicon.png' %}" alt="Icon" class="icon"/></a>
+    </div>
+</center>
+{% endblock %}

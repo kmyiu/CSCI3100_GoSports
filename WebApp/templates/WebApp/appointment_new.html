@@ -1,0 +1,52 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}New appointment{% endblock %}
+
+{% block head %}
+    <style>
+        td {
+            padding: 5px;
+            border: none;
+            text-align: left;
+        }
+        tr {
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            border-collapse: collapse;
+        }
+        table {
+            margin: auto;
+            width: 70%;
+            padding: 1em;
+            border-radius: 10px;
+            border-collapse:separate;
+            border: 3px solid green;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            table-layout: fixed;
+        }
+        fieldset{
+            border: 3px solid green;
+            padding: 1em;
+            border-radius: 25px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<br/>
+<br/>   
+    <center>
+        <form method = "POST">
+            {% csrf_token %}
+            <table border="5">
+                {% for field in form %}
+                    <tr>
+                        <td colspan = "2">{{ field.label }}</td>
+                        <td colspan = "8">{{ field }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <button class = "button buttontogreen" type = "submit" value = "Save"><span class = "blacktext">Save</span></button>
+        </form>
+    </center>
+{% endblock %}

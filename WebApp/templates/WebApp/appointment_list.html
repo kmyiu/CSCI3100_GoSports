@@ -1,0 +1,82 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Appointment List{% endblock %}
+
+{% block head %}
+    <style>
+        td {
+            padding: 5px;
+            border: none;
+            text-align: left;
+        }
+        tr {
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            border-collapse: collapse;
+        }
+        table {
+            margin: auto;
+            width: 70%;
+            padding: 1em;
+            border-radius: 10px;
+            border-collapse:separate;
+            border: 3px solid green;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            table-layout: fixed;
+        }
+        fieldset{
+            border: 3px solid green;
+            padding: 1em;
+            border-radius: 25px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div style="overflow-y: scroll; height: 600px;">
+    <center>
+    <font size="4">List of appointments:</font><br>
+    <a class = "btn btn-default" href = "{% url 'appointment_new' %}" >
+            <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+    {% for id, v, allowed in appointments %}
+        <tr><td><table>
+        {% for heading, val in v %}
+            {% if heading == 'status' %}
+                {% if val == 'O' %}
+                    <tr> <th> {{ heading }}</th> <td> Open </td> </tr>
+                {% elif val == 'E' %}
+                    <tr> <th> {{ heading }}</th> <td> Expired </td> </tr>
+                {% elif val == 'F' %}
+                    <tr> <th> {{ heading }}</th> <td> Full </td> </tr>
+                {% endif %}
+            {% elif heading == 'max_num' %}
+                <tr> <th> max. no. of participants</th> <td> {{ val }}</td> </tr>
+            {% elif heading == 'sports_type' %}
+                <tr> <th> sports type</th> <td> {{ val }}</td> </tr>
+            {% elif heading == 'appointment_time' %}
+                <tr> <th> appointment time</th> <td> {{ val|date:'d M, Y' }}</td> </tr>
+            {% else %}
+                <tr> <th> {{ heading }}</th> <td> {{ val }}</td> </tr>
+            {% endif %}
+        {% endfor %}
+           <tr> <th></th><td>  
+            {% if allowed %}
+            <form method = "POST">
+            <a class = "btn btn-default" href = "{% url 'appointment_join' pk=id %}" style = 'float: left'>
+                Join </a>
+            </form>
+            {% else %}
+            <form method = "POST">
+            <a class = "btn btn-default" disabled style = 'float: left'>
+                Join </a>
+            </form>
+            {% endif %}
+            </td></tr>
+        </table></td></tr>
+    </br>
+    {% endfor %}
+    </center>
+</div>
+{% endblock %}

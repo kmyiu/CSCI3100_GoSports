@@ -1,0 +1,170 @@
+{% extends 'WebApp/base.html' %}
+{% block title %}Chat room{% endblock %}
+
+{% block head %}
+<style type="text/css">
+	.chat-list {
+		background: blue;
+	}
+	
+	.aspect1to1 {
+		padding-bottom: 50%;
+		width: 100%;
+        background-position: center center;
+        background-repeat: no-repeat;
+	}
+	
+	.propic {
+		width: 50px;
+		height: 50px;
+        background-position: center center;
+        background-repeat: no-repeat;
+	}
+	
+	.propic2 {
+		width: 50px;
+		height: 50px;
+		margin: 0 10px;
+        background-position: center center;
+        background-repeat: no-repeat;
+
+	}
+	
+	.height50 {
+		height: 50px;
+	}
+	
+	.proname {
+		padding-top: 25%;
+		padding-bottom: 25%;
+	}
+	
+	.scrollable {
+		overflow-x: hidden;
+		overflow-y: scroll;
+	}
+	
+	 /* Chat containers */
+	.container {
+		border: 2px solid #dedede;
+		background-color: #f1f1f1;
+		border-radius: 5px;
+		padding: 10px;
+		margin: 10px 0;
+	}
+
+	/* Darker chat container */
+	.darker {
+		border-color: #cccccc;
+		background-color: #dddddd;
+	}
+
+	/* Clear floats */
+	.container::after {
+		content: "";
+		clear: both;
+		display: table;
+	}
+
+	/* Style images */
+	.container img {
+		float: left;
+		max-width: 60px;
+		width: 100%;
+		margin-right: 20px;
+		border-radius: 50%;
+	}
+
+	/* Style the right image */
+	.container img.right {
+		float: right;
+		margin-left: 20px;
+		margin-right:0;
+	}
+
+	/* Style time text */
+	.time-right {
+		float: right;
+		color: #aaa;
+	}
+
+	/* Style time text */
+	.time-left {
+		float: left;
+		color: #999;
+	} 
+
+    .absolute {
+        position: absolute;;
+        bottom: 20px;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+	<div class="container-fluid">
+		<div class="row h-90">
+            <div class="col-3 position-relative" style="max-height: 90%">
+                <form id="chat-box" class="form-group absolute" method="post" action="" >
+                    {% csrf_token %}
+                    <span class="row-6">
+                            <span class="input-field">
+                                <input id="id_message" name="message" type="text" placeholder="Type your message..." style="min-width: 200px">
+                            </span>
+                    </span>
+                    <span class="row-6" style="line-height: 20px">
+                        {% if enabled %}
+                            <button class="button buttontogreen"><span class ="blacktext">send</span></button>
+                        {% else %}
+                            <button class="button buttontogreen" disabled><span class ="blacktext">send</span></button>
+                        {% endif %}
+                    </span>
+                </form>
+            </div>
+			<div class="col-8 position-relative scrollable" style="max-height: 90%">
+                {% for message in messages %}
+                    {% if message.sender == request.user %}
+                        <div class="container" style="width: 65%; position: relative; float: right">
+                            <div class="propic2 float-left">
+                                <div class="aspect1to1">
+                                    <img class="rounded-circle w-100 h-100" src = "{{message.sender.propic.url }}" />
+                                </div>
+                            </div>
+                            <p>{{ message.message }}</p>
+                            <span class="left">You</span>
+                            <span class="time-right">{{ message.timestamp }}</span>
+                        </div>
+                    {% else %}
+                        <div class="container darker" style="width: 65%; position: relative; float: left">
+                            <div class="propic2 float-left">
+                                <div class="aspect1to1">
+                                    <img class="rounded-circle w-100 h-100" src = "{{message.sender.propic.url}}" />
+                                </div>
+                            </div>
+                            <p>{{ message.message }}</p>
+                            <span class="left">{{ message.sender }}</span>
+                            <span class="time-right">{{ message.timestamp }}</span>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+   	<div class="col-1 table scrollable h-100">
+   		<div class="row height50 m-1 border-primary rounded">
+   			{% for user in users %}                
+                <tr><a href="{% url 'messaging' request.user.id user.id%}"  class="collection-item row">  
+                    <div class="propic">
+                        <div class="aspect1to1">
+                            <img class="rounded-circle w-100 h-100" src = "{{user.propic.url}}" >
+                        </div>
+                    </div>                    
+                    <div class="col s8">
+                        <span class="title" style="font-weight: bolder">{{ user.username }}</span>
+                    </div>
+                </a></tr>
+            {% endfor %}
+    	</div>
+    </div>
+	</div>
+</div>
+{% endblock %}

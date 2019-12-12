@@ -1,0 +1,49 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Profile Edit{% endblock %}
+
+{% block head %}
+<style>
+    .center {
+        margin: auto;
+        width: 70%;
+        border: 0px solid green;
+        padding: 30px 0;
+        <!-- text-align: center; -->
+    }
+    .center .haveaccount{
+        float:right;
+    }
+    fieldset{
+        border:3px solid green;
+        padding:1em;
+        border-radius: 25px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+ <div class='center'>
+        <form method = "POST" enctype='multipart/form-data'>
+            {% csrf_token %}
+            <fieldset>
+                <table>
+                    <!--<tr>
+                    <td colspan="6"><img src="{{ user.Picture }}" width="160" height="120"></td>
+                    </tr> -->
+                    {% for field in form %}
+                        <tr>
+                             <th>{{ field.label_tag }}</th>
+                                <td>{{ field }}</td>
+                                {% if field.help_text %}
+                                    <td><small style = "color: dimgray">{{ field.help_text|striptags }}</small></td>
+                                {% endif %}
+                        </tr>
+                        
+                    {% endfor %}
+                </table>
+                <button class = "button buttontogreen" type = "submit" value = "Save"><span class = "blacktext">Save</span></button>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

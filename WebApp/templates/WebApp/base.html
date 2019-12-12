@@ -1,0 +1,121 @@
+{% load staticfiles %}
+<html>
+	<head>
+		<title>{% block title %}{% endblock %}</title>
+        <link rel="icon" href="{% static 'img/favicon.png' %}">
+        <link rel = "stylesheet" href = "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel = "stylesheet" href = "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel = "stylesheet" href = "{% static 'css/nav.css' %}">
+        <script src = "https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script type = "text/javascript">
+            $(document).ready(function(){
+                $('.sidebarbutton').click(function(){
+                    $('.sidebar').toggleClass('active')
+                    $('.sidebarbutton').toggleClass('toggle')
+                })
+            })
+        </script>
+        <style>
+            .icon {height:50px;} body {background: #F0F0F0;}
+            .searchbox{
+                background: #FAD6FF;
+                border-radius: 8px;
+                border-top: transparent ;
+                border-left: transparent ;
+                border-right: transparent ;
+                border-bottom: 3px solid dimgray ;
+                min-height: 30px;
+                max-height: 30px;
+            }
+            .searchoption{
+                margin-left: 5px;
+                background: #FAD6FF;
+                border-radius: 8px;
+                border-top: transparent ;
+                border-left: transparent ;
+                border-right: transparent ;
+                border-bottom: transparent;
+                color: #404040;
+            } 
+            .searchsubmit{
+                margin-left: 10px;
+                background: #FAD6FF;
+                border-radius: 8px;
+                border-top: transparent ;
+                border-left: transparent ;
+                border-right: transparent ;
+                border-bottom: transparent;
+                color: black;
+            }
+        </style>
+        {% block head %}{% endblock %}
+	</head>
+    <body>
+        <!--top navigation bar -->
+        <div class = 'topbar'>
+            <div align = "center">
+            	<div style="float:left; vertical-align: center">
+            		<form action = "{% url 'search_result' %}" method = "POST">
+            			<a href="{% url 'homepage' %}"><img src="/static/img/icon.png" alt="Icon" class="icon"/></a>
+            			{% csrf_token %}
+                    	<input type = "text" id = "search_field" style = "margin-left:30px;" placeholder = "Search" name = "name__contains" class = "searchbox">
+                    	<select id = "base_search_type" name = "search_type" onchange = "base_changeview()" class = "searchoption">
+                    		<option value = "facility" selected>Facility</option>
+                    		<option value = "user" {% if not request.user.is_authenticated %}hidden{% endif %}>User</option>
+                    	</select>
+                    	<input type = "submit" value = "Search" class = "searchsubmit">
+                    </form>
+                </div>
+
+                {% if request.user.is_authenticated %}
+                    <div style = "float:right;">{{ request.user.username }}
+                        <a href = "{% url 'logoff' %}"><button class = "button buttonlogoff"><span class = "blacktext">Logoff</span></button></a>
+                    </div>
+                {% else %}
+                    <div style = "float:right;">
+                        <a href = "{% url 'logon' %}"><button class = "button buttonlogon"><span class = "blacktext">Logon</span></button></a>
+                        <a href = "{% url 'registration' %}"><button class = "button buttonregister"><span class = "blacktext">Register</span></button></a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!--left navigation bar -->
+        <div class="sidebar">
+            <ul2>
+                {% if request.user.is_authenticated %}
+                    <li><a href = "{% url 'profile' %}">User Profile</a></li>
+                {% endif %}
+                <li><a href = "{% url 'advanced_search' %}">Advanced Search</a></li>
+                <li><a href = "{% url 'facility_list' %}">Facility List</a></li>
+                <li><a href = "{% url 'sportsfield_list' %}">Sports Field List</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href = "{% url 'chat' %}">Chat Room</a></li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                    <li><a href = "{% url 'appointment_list' %}">Appointment</a></li>
+                {% endif %}
+            </ul2>
+            <button class = "sidebarbutton"><span></span></button>
+        </div>
+
+        <!--main content -->
+        {% block content %}
+        {% endblock %}
+
+        <script>
+        	function base_changeview() {
+        		value = document.getElementById("base_search_type").value;
+        		if (value == "facility") {
+        			document.getElementById("search_field").name = "name__contains";
+        		}
+        		else {
+        			document.getElementById("search_field").name = "username__contains";
+        		}
+        	}
+        </script>
+    </body>
+</html>

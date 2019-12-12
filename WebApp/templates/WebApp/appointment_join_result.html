@@ -1,0 +1,67 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Appointment join result{% endblock %}
+
+{% block head %}
+    <style>
+        td {
+            padding: 5px;
+            border: none;
+            text-align: left;
+        }
+        tr {
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            border-collapse: collapse;
+        }
+        table {
+            margin: auto;
+            width: 70%;
+            padding: 1em;
+            border-radius: 10px;
+            border-collapse:separate;
+            border: 3px solid green;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            table-layout: fixed;
+        }
+        fieldset{
+            border: 3px solid green;
+            padding: 1em;
+            border-radius: 25px;
+        }
+    </style>
+    <meta http-equiv = "refresh" content = "2; URL = {% url 'appointment_list' %}">
+    <meta name = "keywords" content = "automatic redirection">
+{% endblock %}
+
+{% block content %}
+<center>
+    <div>
+        <p> You have successfully joined the activity. </p>
+        <table>
+        {% for heading, val in appointment %}
+            <center>
+            {% if heading == 'status' %}
+                {% if val == 'O' %}
+                    <tr> <th> {{ heading }}</th> <td> Open </td> </tr>
+                {% elif val == 'E' %}
+                    <tr> <th> {{ heading }}</th> <td> Expired </td> </tr>
+                {% elif val == 'F' %}
+                    <tr> <th> {{ heading }}</th> <td> Full </td> </tr>
+                {% endif %}
+            {% elif heading == 'max_num' %}
+                <tr> <th> max. no. of participants</th> <td> {{ val }}</td> </tr>
+            {% elif heading == 'sports_type' %}
+                <tr> <th> sports type</th> <td> {{ val }}</td> </tr>
+            {% elif heading == 'appointment_time' %}
+                <tr> <th> appointment time</th> <td> {{ val }}</td> </tr>
+            {% else %}
+                <tr> <th> {{ heading }}</th> <td> {{ val }}</td> </tr>
+            {% endif %}   
+            </center>   
+        {% endfor %}
+        </table>
+    </div>
+</center>
+{% endblock %}

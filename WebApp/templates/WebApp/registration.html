@@ -1,0 +1,52 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block head %}
+    <style>
+        .center {
+            margin: auto;
+            width: 70%;
+            border: 0px solid green;
+            padding: 30px 0;
+            text-align: center;
+        }
+        .center .haveaccount{
+            float:right;
+        }
+        fieldset {
+            border:3px solid green;
+            padding:1em;
+            border-radius: 25px;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class = 'center'>
+        <form method = "POST" class = "registration-form">
+            {% csrf_token %}
+            <fieldset>
+                <table>
+                    {% for field in form %}
+                        <tr>
+                            <tr>
+                                <th>{{ field.label_tag }}</th>
+                                <td>{{ field }}</td>
+                                {% if field.help_text %}
+                                    {% autoescape off %}
+                                        <td><small style = "color: dimgray;">{{ field.help_text }}</small></td>
+                                    {% endautoescape %}
+                                {% endif %}
+                            </tr>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <button class = "button buttontogreen" type = "submit" value = "Register"><span class = "blacktext">Register</span></button>
+            <span class = "haveaccount"><a href = "{% url 'logon' %}">Already have an account?</a></span>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

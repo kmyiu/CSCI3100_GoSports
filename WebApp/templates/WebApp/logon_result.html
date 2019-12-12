@@ -1,0 +1,33 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Logon Result{% endblock %}
+
+{% block head %}
+    {% if request.user.is_authenticated %}
+        <meta http-equiv = "refresh" content = "3; URL = {% url 'homepage' %}">
+        <meta name = "keywords" content = "automatic redirection">
+    {% else %}
+        <meta http-equiv = "refresh" content = "3; URL = {% url 'logon' %}">
+        <meta name = "keywords" content = "automatic redirection">
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <div style = "margin-left: 10%; padding: 5px 5px;">
+            {{ request.user.username }}, Welcome Back!
+        </div>
+    {% else %}
+        <div style = "margin-left: 10%; padding: 5px 5px;">
+            <ol>
+                {% for error in errors %}
+                    {% for content in error %}
+                        <li>{{ content|striptags }}</li><br>
+                    {% endfor %}
+                {% endfor %}
+            </ol>
+            <p>Please try again.</p>
+            <!-- User is not active, or it does not exist, or password is wrong. -->
+        </div>
+    {% endif %}
+{% endblock %}

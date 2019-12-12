@@ -1,0 +1,45 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Logon{% endblock %}
+
+{% block head %}
+<style>
+    .center {
+        margin: auto;
+        width: 50%;
+        border: 0px solid green;
+        padding: 30px 0;
+        <!-- text-align: center; -->
+    }
+    .register{
+        float:right;
+    }
+    fieldset{
+        border:3px solid green;
+        padding:1em;
+        border-radius: 25px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class='center'>
+        <form method = "POST" class = "logon-form">
+            {% csrf_token %}
+            <fieldset>
+                <table>
+                    {% for field in form %}
+                        <tr>
+                            <th>{{ field.label_tag }}</th>
+                            <td>{{ field }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <button class = "button buttontogreen" type = "submit" value="logon"><span class = "blacktext">Logon</span></button>
+                <span class = "register"><a href = "{% url 'registration' %}">Don't have an account?</a></span>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+
+<!-- class = "save btn btn-default"-->

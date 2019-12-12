@@ -1,0 +1,53 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Comment Result{% endblock %}
+
+{% block head %}
+<style>
+    td {
+        padding: 5px;
+        border: none;
+        text-align: left;
+    }
+    tr {
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        border-collapse: collapse;
+    }
+    table {
+        margin: auto;
+        width: 80%;
+        padding: 1em;
+        border-radius: 10px;
+        border-collapse:separate;
+        border:3px solid green;
+        border-radius:10px;
+        -moz-border-radius:10px;
+        table-layout: fixed;
+    }
+    fieldset{
+        border:3px solid green;
+        padding:1em;
+        border-radius: 25px;
+    }
+</style>
+    {% if request.user.is_authenticated %}
+        <meta http-equiv = "refresh" content = "3; URL = {% url 'sportsfield_list' %}">
+        <meta name = "keywords" content = "automatic redirection">
+    {% else %}
+        <meta http-equiv = "refresh" content = "3; URL = {% url 'logon' %}">
+        <meta name = "keywords" content = "automatic redirection">
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<center>
+    <div>
+        {% for error in errors %}
+            {{ error }}
+        {% empty %}
+            <h1>Comment submitted.</h1>
+        {% endfor %}
+    </div>
+</center>
+{% endblock %}

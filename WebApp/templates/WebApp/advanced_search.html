@@ -1,0 +1,47 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block head %}
+<style>
+    fieldset{
+        left-margin:10px;
+        border:3px solid green;
+        padding:0.5em;
+        border-radius: 25px;
+        width: 70%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+</body>
+<body onload = "changeview()">
+    <div class = 'center'>
+        <div align = "center">
+            <p>Please fill in the keywords.</p>
+            <form action = "{% url 'search_result' %}" method = "post">
+                {% csrf_token %}
+                <select id = "search_type" name = "search_type" onchange = "changeview()">
+                    <option value = "facility" >Facility</option>
+                    <option value = "user" {% if not request.user.is_authenticated %}hidden{% endif %}>User</option>
+                </select>
+                <br>
+                <fieldset id = "type_search">
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function changeview() {
+            value = document.getElementById("search_type").value;
+            if (value == "facility") {
+                document.getElementById("type_search").innerHTML = 'Facility Name: <br>\n<input type = "text" name = "name__contains"><br>\nFacility District: <br>\n<input type = "text" name = "district__contains"><br><br>\n<input type = "submit" value = "Search">';
+            }
+            else {
+                document.getElementById("type_search").innerHTML = 'User Name: <br>\n<input type = "text" name = "username__contains"><br>\n<input type = "submit" value = "Search">';
+            }
+        }
+    </script>
+{% endblock %}

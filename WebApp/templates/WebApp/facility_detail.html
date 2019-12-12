@@ -1,0 +1,80 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}{{ facility.Name }}{% endblock %}
+
+{% block head %}
+    <style>
+        td {
+            padding: 2px;
+            border: none;
+            text-align: left;
+        }
+        tr {
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            border-collapse: collapse;
+        }
+        table {
+            margin: auto;
+            width: 80%;
+            padding: 1em;
+            border-radius: 10px;
+            border-collapse:separate;
+            border: 3px solid green;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            table-layout: fixed;
+        }
+        fieldset{
+            border: 3px solid green;
+            padding: 1em;
+            border-radius: 25px;
+        }
+        .top {
+            vertical-align: top;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <br/>
+    <br/>
+    <div>
+        <left>
+            <input type = text id = 'Latitude' value = {{ facility.Latitude }} hidden>
+            <input type = text id = 'Longitude' value = {{ facility.Longitude }} hidden>
+            
+            <table border = "" = "5">
+                <tr>
+                    <td></td>
+                {% for field, value in facility.items %}
+                    {% if field == 'ID' %}
+                    {% elif field == 'Latitude' %}
+                    {% elif field == 'Longitude' %}
+                    {% elif field == 'Rate' %}
+                    {% else %}
+                        <tr><td colspan = "4">{{ field }}: {{ value }}</td></tr>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            </table>
+        </left>
+        <center>
+            <div id = "map" style = "width: 500px;height: 500px"></div>
+        </center>
+    </div>
+    <script>
+        function myMap() {
+            var lat = document.getElementById("Latitude").value;
+            var lng = document.getElementById("Longitude").value;
+            var myCenter = new google.maps.LatLng(lat, lng);
+            var mapCanvas = document.getElementById("map");
+            var mapOptions = {center: myCenter, zoom: 15};
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+            var marker = new google.maps.Marker({position:myCenter});
+            marker.setMap(map);
+        }
+    </script>
+
+    <script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyD6WuZsNcE_1VsOFoRopF30GlsqxvKl5ck&callback=myMap"></script>
+{% endblock %}

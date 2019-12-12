@@ -1,0 +1,14 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Logon Result{% endblock %}
+
+{% block head %}
+    <meta http-equiv = "refresh" content = "3; URL = {% url 'homepage' %}">
+    <meta name = "keywords" content = "automatic redirection">
+{% endblock %}
+
+{% block content %}
+    <div style = "margin-left: 10%; padding: 5px 5px;">
+        {{ username }}, Goodbye!
+    </div>
+{% endblock %}

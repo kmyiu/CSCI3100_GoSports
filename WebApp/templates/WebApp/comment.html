@@ -1,0 +1,55 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Comment{% endblock %}
+
+{% block head %}
+    <style>
+        .center {
+            margin: auto;
+            width: 70%;
+            border: 0px solid green;
+            padding: 30px 0;
+            text-align: center;
+        }
+        .center .haveaccount{
+            float:right;
+        }
+        fieldset {
+            border:3px solid green;
+            padding:1em;
+            border-radius: 25px;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class = 'center'>
+        <form method = "POST">
+            {% csrf_token %}
+            <fieldset>    
+                <table>
+                    {% for field in form %}
+                        {% if field.name != 'commenter' and field.name != 'target_sportsfield' %}
+                           <tr>
+                             <tr>
+                                    <th colspan="2">{{ field.label_tag }}</th>
+                                    <td colspan="3">{{ field }}</td>                               
+                             </tr>
+                           </tr>
+                        {% else %}
+                            <tr>
+                             <tr>
+                                    <th colspan="1"></th>
+                                    <td colspan="2"><div style='visibility: hidden;'>{{ field }}</div></td>                               
+                             </tr>
+                           </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>           
+                <button class = "button buttontogreen" type = "submit" value = "Rate"><span class = "Rate">Comment</span></button>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

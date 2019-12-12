@@ -1,0 +1,46 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Account Validation{% endblock %}
+
+{% block head %}
+<style>
+    td {
+        padding: 5px;
+        border: none;
+        text-align: left;
+    }
+    tr {
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        border-collapse: collapse;
+    }
+    table {
+        margin: auto;
+        width: 80%;
+        padding: 1em;
+        border-radius: 10px;
+        border-collapse:separate;
+        border:3px solid green;
+        border-radius:10px;
+        -moz-border-radius:10px;
+        table-layout: fixed;
+    }
+    fieldset{
+        border:3px solid green;
+        padding:1em;
+        border-radius: 25px;
+    }
+</style>
+    <meta http-equiv = "refresh" content = "3; URL = {% url 'homepage' %}">
+    <meta name = "keywords" content = "automatic redirection">
+{% endblock %}
+
+{% block content %}
+{% autoescape off %}
+Hi {{ user.username }},
+
+Please click on the link below to confirm your registration:
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+{% endautoescape %}
+{% endblock %}

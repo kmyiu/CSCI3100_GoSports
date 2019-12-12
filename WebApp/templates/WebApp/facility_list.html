@@ -1,0 +1,72 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}Facility List{% endblock %}
+
+{% block head %}
+    {% if not facilities %}
+        <meta http-equiv = "refresh" content = "3; URL = {% url 'advanced_search' %}">
+        <meta name = "keywords" content = "automatic redirection">
+    {% endif %}
+<style>
+    td {
+        padding: 2px;
+        border: none;
+        text-align: left;
+    }
+    tr {
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        border-collapse: collapse;
+    }
+    table {
+        margin: auto;
+        width: 80%;
+        padding: 1em;
+        border-radius: 10px;
+        border-collapse:separate;
+        border:3px solid green;
+        border-radius:10px;
+        -moz-border-radius:10px;
+        table-layout: fixed;
+    }
+    fieldset{
+        border:3px solid green;
+        padding:1em;
+        border-radius: 25px;
+    }
+    .top {
+        vertical-align: top;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+    {% for facility in facilities %}
+        <div>
+            <left>
+                <br/>
+                <table border = "" = "5">
+                    <tr>
+                        <td></td>
+                    {% for field, value in facility.items %}
+                        {% if field == 'ID' %}
+                            <tr><td colspan = "4"><a href = "{% url 'facility_detail' pk=value %}">
+                        {% elif field == 'Name' %}
+                            {{ field }}: {{ value }}</a></td></tr>
+                        {% elif field != 'Rate' %}
+                            <tr><td colspan = "4">{{ field }}: {{ value }}</td></tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tr>
+                </table>
+            </left>
+        </div>
+    {% empty %}
+        <div style = "margin-left: 12%; padding: 5px 5px;">
+            <center>
+                <p>No desired result. Please search again.</p>
+            </center>
+        </div>
+    {% endfor %}
+{% endblock %}

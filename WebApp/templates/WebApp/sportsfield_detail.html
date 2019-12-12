@@ -1,0 +1,72 @@
+{% extends 'WebApp/base.html' %}
+
+{% block title %}{{ sportsfield.Name }}{% endblock %}
+
+{% block head %}
+<style>
+    td {
+        padding: 2px;
+        border: none;
+        text-align: left;
+    }
+    tr {
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        border-collapse: collapse;
+    }
+    table {
+        margin: auto;
+        width: 80%;
+        padding: 1em;
+        border-radius: 10px;
+        border-collapse:separate;
+        border:3px solid green;
+        border-radius:10px;
+        -moz-border-radius:10px;
+        table-layout: fixed;
+    }
+    fieldset{
+        border:3px solid green;
+        padding:1em;
+        border-radius: 25px;
+    }
+    .top {
+        vertical-align: top;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<br/>
+<br/>
+<div>
+    <left>
+        <table border = "" = "5">
+            <tr>
+                <td></td>
+            {% for field, value in sportsfield.items %}
+                {% if field != 'ID' %}
+                    <tr><td colspan = "1">{{ field }}</td> <td colspan = "2">{{ value }}</td></tr>
+                {% endif %}
+            {% endfor %}
+            </tr>
+            {% if request.user.is_authenticated %}
+            <tr>
+                <td colspan = "4"><a href = "{% url 'comment' pk=sportsfield.ID %}"><button class = "button buttonchangeinfo"><span class = "blacktext">Comment</span></button></a></td>
+            </tr>
+            {% endif %}
+        </table>
+    </left>
+    <center>
+    <font size='4'>Comments:</font>
+        <div id = "comments" style = "width: 500px; height: 500px">
+            {% for comment in comments %}
+                <table>
+                    <tr><td><font size='3'>{{ comment.commenter }}</font></td><td><font size='2'>{{ comment.timestamp }}</font></td></tr>
+                    <tr><td>{{ comment.comment }}</td></tr>
+                </table>
+            {% endfor %}
+        </div>
+    </center>
+</div>
+{% endblock %}
