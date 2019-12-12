@@ -8,5 +8,9 @@ teams and calling for random games with other users. Our product will cover mult
 single application, this can provide great convenience to sports lovers, possibly attract people currently
 not participating sports activities, and cooperate with sports organizations for promotion of sports life.
 
+### Enviorment
+- `Python 3.6/3.7`
+- `Django 2.0`
+
 ### Usage
 `python manage.py runserver`
